@@ -19,21 +19,21 @@ namespace MVC_Tutorial_01.Controllers
         }
 
         // GET: News
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.TblNews.ToListAsync());
+            return View(_context.TblNews.ToList());
         }
 
         // GET: News/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tblNews = await _context.TblNews
-                .FirstOrDefaultAsync(m => m.No == id);
+            var tblNews = _context.TblNews
+                .FirstOrDefault(m => m.No == id);
             if (tblNews == null)
             {
                 return NotFound();
@@ -43,9 +43,9 @@ namespace MVC_Tutorial_01.Controllers
         }
 
         // GET: News/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            var newsTypes = await _context.TblNewsType.ToListAsync();
+            var newsTypes = _context.TblNewsType.ToList();
             var selectList = newsTypes.Select(x => new SelectListItem(x.TypeText, x.TypeValue));
             ViewData["NewsTypeSelectList"] = new SelectList(selectList, "Value", "Text");
 
@@ -57,26 +57,26 @@ namespace MVC_Tutorial_01.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("No,Type,Title,Creator,Content,CreateDt")] TblNews tblNews)
+        public IActionResult Create([Bind("No,Type,Title,Creator,Content,CreateDt")] TblNews tblNews)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(tblNews);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(tblNews);
         }
 
         // GET: News/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tblNews = await _context.TblNews.FindAsync(id);
+            var tblNews = _context.TblNews.Find(id);
             if (tblNews == null)
             {
                 return NotFound();
@@ -89,7 +89,7 @@ namespace MVC_Tutorial_01.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("No,Type,Title,Creator,Content,CreateDt")] TblNews tblNews)
+        public IActionResult Edit(int id, [Bind("No,Type,Title,Creator,Content,CreateDt")] TblNews tblNews)
         {
             if (id != tblNews.No)
             {
@@ -101,7 +101,7 @@ namespace MVC_Tutorial_01.Controllers
                 try
                 {
                     _context.Update(tblNews);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,15 +120,15 @@ namespace MVC_Tutorial_01.Controllers
         }
 
         // GET: News/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var tblNews = await _context.TblNews
-                .FirstOrDefaultAsync(m => m.No == id);
+            var tblNews = _context.TblNews
+                .FirstOrDefault(m => m.No == id);
             if (tblNews == null)
             {
                 return NotFound();
@@ -140,11 +140,11 @@ namespace MVC_Tutorial_01.Controllers
         // POST: News/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var tblNews = await _context.TblNews.FindAsync(id);
+            var tblNews = _context.TblNews.Find(id);
             _context.TblNews.Remove(tblNews);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 
@@ -167,7 +167,7 @@ namespace MVC_Tutorial_01.Controllers
             }
 
             // where
-            var todayNews = allNews.Where(x => x.Title == "Today").ToList();
+            var todayNews = allNews.Where(x => x.Title == "Today");
             var todayNewsToList = allNews.Where(x => x.Title == "Today").ToList();
 
             // orderby
