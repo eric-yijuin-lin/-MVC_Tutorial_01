@@ -11,7 +11,6 @@ namespace MVC_Tutorial_01.Models
 {
     public partial class TblNews
     {
-        [Range(1, 1000, ErrorMessage = "No 必須介在 1~1000")]
         public int No { get; set; }
         public string Type { get; set; }
         [Required(ErrorMessage = "標題是必須的")]
@@ -22,5 +21,7 @@ namespace MVC_Tutorial_01.Models
         public DateTime? CreateDt { get; set; }
         // [EmailAddress(ErrorMessage = "email 格式錯誤")]
         // public string Email { get; set; }
+        //[Range(1, 1000, ErrorMessage = "No 必須介在 1~1000")]
+        // public int Number { get; set; }
     }
 }
