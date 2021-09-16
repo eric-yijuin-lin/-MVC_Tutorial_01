@@ -200,6 +200,10 @@ namespace MVC_Tutorial_01.Controllers
                 .Select(x => x.Creator)
                 .Distinct()
                 .ToList();
+
+            // any, contains
+            var anyEmptyCreator = allNews.Any(x => string.IsNullOrEmpty(x.Creator));
+            var testContents = allNews.Where(x => x.Content.Contains("test")).ToList();
         }
 
         private bool TblNewsExists(int id)
